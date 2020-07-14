@@ -1,0 +1,73 @@
+
+<h3>Mostrando pokes {{ varOffset }} a {{ varOffset + pokes.length }} de un total de {{ totalPokes }}</h3>
+
+<div>
+    <div *ngFor = "let poke of pokes">
+            <div class="container-lg">    
+                <div class="card" style="width: 18rem">
+                    <div>
+                        <img [src]="poke.sprites.back_default" height="96px" width="96px">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ poke.name }} </h5>
+                        <p class="card-text">
+                            Este Pokemon se llama {{ poke.name }} y su id es {{ poke.id }}
+                        </p>
+                            Desc: {{ poke.descr }} 
+                        <p>
+
+                        <form #f="ngForm" (ngSubmit)="submit(f)" action="/">
+                            <label for="desc">Descripción:</label>
+                            <input 
+                              required 
+                              minlength="3" 
+                              ngModel 
+                              name="desc" 
+                              #desc="ngModel" 
+                              (change)="log(desc)" 
+                              (keyup.enter)="enviarDescripcion($event, poke)" 
+                              class="form-control" type="text" placeholder="ingrese descripción..."><br>
+                            <div 
+                              class="alert alert-danger" 
+                              *ngIf="desc.touched && !desc.valid">
+                              Description is required.
+                            </div>
+                            <div 
+                              class="alert alert-danger" 
+                              *ngIf="desc.errors?.minlength">
+                              Description too short.
+                            </div>
+                            <button (click)="borrarDescripcion(poke)" class="btn btn-secondary" type="submit" value="delete">
+                              DELETE DESC
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<h5>Pagina {{ paginaActual }}</h5>
+
+<nav aria-label="...">
+    <ul class="pagination">
+      <li [class.disabled]="varOffset == 0" class="page-item">
+        <a (click)="obtenerAnteriores()" class="page-link" tabindex="-1">Anteriores</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link disabled">Página {{ (varOffset / varLimit) + 1 }} de {{ totalPaginas }} </a>
+      </li>
+      <li>
+        <a (click)="irPagina()" class="page-link" href="#">{{ paginaActual +1 }}</a>
+      </li>
+      <li>
+        <a (click)="irPagina()" class="page-link" href="#">{{ paginaActual +2 }}</a>
+      </li>
+      <li>
+        <a (click)="irPagina()" class="page-link" href="#">{{ paginaActual +3 }}</a>
+      </li>
+      <li [class.disabled]="totalPokes <= varOffset + varLimit" class="page-item">
+        <a (click)="obtenerSiguientes()" class="page-link" >Siguientes</a>
+      </li>
+    </ul>
+  </nav>
