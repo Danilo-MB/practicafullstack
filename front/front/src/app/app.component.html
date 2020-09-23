@@ -1,51 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-back" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
+  </svg>
+  <h4>      Mostrando Pokes {{ varOffset }} a {{ varOffset + pokes.length }} de un total de {{ totalPokes }}</h4>
+</nav>
 
-<h3>Mostrando pokes {{ varOffset }} a {{ varOffset + pokes.length }} de un total de {{ totalPokes }}</h3>
 
-<div>
-    <div *ngFor = "let poke of pokes">
-            <div class="container-lg">    
-                <div class="card" style="width: 18rem">
-                    <div>
-                        <img [src]="poke.sprites.back_default" height="96px" width="96px">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"> {{ poke.name }} </h5>
-                        <p class="card-text">
-                            Este Pokemon se llama {{ poke.name }} y su id es {{ poke.id }}
-                        </p>
-                            Desc: {{ poke.descr }} 
-                        <p>
+<div class="row">
+  <ng-container *ngFor ="let poke of pokes; let i of index">
+    <div class="col">
+      <div class="card" style="width: 18rem">
+        <div>
+            <img [src]="poke.sprites.back_default" height="96px" width="96px">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"> {{ poke.name | uppercase }} </h5>
+          <p class="card-text">
+              Este Pokemon se llama {{ poke.name }} y su id es {{ poke.id }}
+          </p>
+              Desc: {{ poke.descr }} 
+          <p>
 
-                        <form #f="ngForm" (ngSubmit)="submit(f)" action="/">
-                            <label for="desc">Descripción:</label>
-                            <input 
-                              required 
-                              minlength="3" 
-                              ngModel 
-                              name="desc" 
-                              #desc="ngModel" 
-                              (change)="log(desc)" 
-                              (keyup.enter)="enviarDescripcion($event, poke)" 
-                              class="form-control" type="text" placeholder="ingrese descripción..."><br>
-                            <div 
-                              class="alert alert-danger" 
-                              *ngIf="desc.touched && !desc.valid">
-                              Description is required.
-                            </div>
-                            <div 
-                              class="alert alert-danger" 
-                              *ngIf="desc.errors?.minlength">
-                              Description too short.
-                            </div>
-                            <button (click)="borrarDescripcion(poke)" class="btn btn-secondary" type="submit" value="delete">
-                              DELETE DESC
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+          <form #f="ngForm" (ngSubmit)="submit(f)" action="/">
+              <label for="desc">Descripción:</label>
+              <input 
+                required 
+                minlength="3" 
+                ngModel 
+                name="desc" 
+                #desc="ngModel" 
+                (change)="log(desc)" 
+                (keyup.enter)="enviarDescripcion($event, poke)" 
+                class="form-control" type="text" placeholder="ingrese descripción..."><br>
+              <div 
+                class="alert alert-danger" 
+                *ngIf="desc.touched && !desc.valid">
+                Description is required.
+              </div>
+              <div 
+                class="alert alert-danger" 
+                *ngIf="desc.errors?.minlength">
+                Description too short.
+              </div>
+              <button (click)="borrarDescripcion(poke)" class="btn btn-secondary" type="submit" value="delete">
+                DELETE DESC
+              </button>
+          </form>
+        </div>
     </div>
+    
+    </div>
+    <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
+  </ng-container>
 </div>
+
+
 
 <h5>Pagina {{ paginaActual }}</h5>
 
@@ -70,4 +79,4 @@
         <a (click)="obtenerSiguientes()" class="page-link" >Siguientes</a>
       </li>
     </ul>
-  </nav>
+</nav>

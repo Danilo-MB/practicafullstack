@@ -2,13 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "tslint -p tsconfig.json --fix",
     "build": "tsc",
-    "watch": "tsc -w",
-    "dev": "tsc & nodemon ./build",
-    "start": "nodemon ./build"
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
